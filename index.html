@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<meta charset="utf-8">
+<title>horx-wdf参考手册</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" type="text/css" href="css/doc.min.css">
+</head>
+<body>
+<div class="header-top-bg">
+  <div class="site-width header-top">
+    <ul class="tabs">
+	  <li><a href="index.html" style="font-size:30px">Horx Web开发框架（horx-wdf）参考手册</a></li>
+	</ul>
+	<ul class="secondary-tabs">
+	  <li></li>
+	</ul>
+  </div>
+</div>
+<div class="header-bottom-bg">
+  <div class="site-width breadcrumb-row">
+    <ul class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
+      <li class="step-0" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a class="label" itemprop="item" href="index.html"><span itemprop="name">horx-wdf参考手册</span></a></li>
+	  <li class="step-1" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a class="label" itemprop="item" href="index.html"><span itemprop="name">框架概述</span></a></li>
+    </ul>
+  </div>
+</div>    
+<div class="main-content site-width">
+  <div class="content-wrapper">
+    <div id="table-of-contents-wrapper" class="col-left">
+      <script>var breadcrumb = ["horx-wdf参考手册", "框架概述"];</script>
+      <script src="js/toc.js"></script>
+      <script src="js/main.min.js"></script>
+    </div>
+    <div class="col-right">
+      <div class="page-content">
+	    <div class="page-title">
+	      <div class="pagers top">
+		    <span class="paging-arrow disabled previous"><span>上一页</span></span>
+		    <a class="paging-arrow next" href="source_code.html"><span>下一页</span></a>
+		  </div>
+		  <div class="title-wrapper">
+            <h1 class="content-header header-section1" id="caption" itemprop="headline">框架概述</h1>
+          </div>
+	    </div>
+	    <div class="page-menu">
+          <div class="page-menu-title">目录</div>
+          <ul>
+		    <li><a class="page-menu-link" href="#section_1" data-menu-target="section_1">技术体系</a></li>
+		    <li><a class="page-menu-link" href="#section_2" data-menu-target="section_2">环境要求</a></li>
+		    <li><a class="page-menu-link" href="#section_3" data-menu-target="section_3">主要特性</a></li>
+		  </ul> 
+	    </div>
+	    <p>horx web开发框架（horx web development framework，horx-wdf）旨在减少搭建开发框架的麻烦，提供一套拿来即用的开发框架。本框架使用Java语言，集成了Spring、MyBatis等框架，提供用户、权限、异常处理、日志等功能，可在单机、集群、微服务等环境下部署。</p>
+
+        <h2 class="content-header header-section2" id="section_1">技术体系</h2>
+        <ul>
+            <li>
+              <p><code class="inline-code">后端技术</code>：SSM（Spring MVC、Spring、Mybatis），也支持SpringBoot、微服务</p>
+            </li>
+
+            <li>
+              <p><code class="inline-code">展示层技术</code>：FreeMarker，也可以支持vm、jsp等其他模板，但需要自行根据FreeMarker模板文件开发</p>
+            </li>
+
+            <li>
+              <p><code class="inline-code">前端技术</code>：jquery、<a href="https://www.layui.com/" target="_blank">layui</a></p>
+            </li>
+        </ul>
+
+        <h2 class="content-header header-section2" id="section_2">环境要求</h2>
+        <ul>
+            <li>
+              <p><code class="inline-code">JDK</code>：JDK8及以上版本</p>
+            </li>
+
+            <li>
+              <p><code class="inline-code">Tomcat</code>：Tomcat7及以上版本</p>
+            </li>
+
+            <li>
+              <p><code class="inline-code">数据库</code>：MySQL 5.6.4，Oracle10g及以上版本</p>
+            </li>
+			
+			<li>
+              <p><code class="inline-code">浏览器</code>：支持HTML5的主流浏览器均支持，推荐谷歌、火狐等支持HTML5的较新版本</p>
+            </li>
+        </ul>
+        
+        <h2 class="content-header header-section2" id="section_3">主要特性</h2>
+          <ul>
+            <li>
+              <p><code class="inline-code">提供一个完整的、可运行的系统</code>：通过简单的配置，系统即可运行起来。可以在此基础上，开发自己的业务</p>
+            </li>
+
+            <li>
+              <p><code class="inline-code">支持多种数据库</code>：目前支持MySQL、Oracle数据库。通过扩展数据库方言，可支持更多种类的数据库</p>
+            </li>
+
+            <li>
+              <p><code class="inline-code">支持多种部署方式</code>：支持单机部署、集群部署、微服务分布式部署</p>
+            </li>
+			
+			<li>
+              <p><code class="inline-code">支持微服务</code>：目前支持Dubbo、SpringCloud微服务</p>
+            </li>
+			
+			<li>
+              <p><code class="inline-code">提供多种扩展接口，可以开发自己的特定实现</code>：系统提供了很多默认实现，但面对各种各种的业务场景，不可能全部覆盖到。比如，用户密码加密方式，系统提供了明文、md5等密码存储方式，用户还可以通过扩展接口实现自己的密码加密机制。这样，用户只需要扩展接口实现，而不是修改系统代码来实现自己的特性</p>
+            </li>
+			
+			<li>
+              <p><code class="inline-code">简化代码</code>：比如通过多种注解（@Annotation），使代码更简洁，代码量更少；使用MyBatis时，不必再写繁琐的insert、update、resultMap语句</p>
+            </li>
+			
+			<li>
+              <p><code class="inline-code">提供多级授权功能</code>：理论上，每一级机构均可设置自己的管理员，进行角色管理、用户管理、授权等操作</p>
+            </li>
+			
+			<li>
+              <p><code class="inline-code">提供数据权限功能</code>：通过数据权限管理，可以简化数据权限控制的代码开发。通过配置，可以设置角色、用户的数据权限。在代码上，可以用注解的方式接收数据权限结果，形成数据权限查询条件，开发人员一般只需要把数据权限查询条件组织进SQL语句中</p>
+            </li>
+			
+			<li>
+              <p><code class="inline-code">集成Spring Session</code>：用户会话信息持久化到数据库，可运行在集群环境下；重启应用时，用户会话不丢失</p>
+            </li>
+			
+			<li>
+              <p><code class="inline-code">提供访问日志、数据操作日志记录功能</code>：支持把访问日志、数据操作日志记录到文件、数据库，用户也可以自行扩展，实现自己的存储方式</p>
+            </li>
+          </ul>
+
+        <div class="bottom-pagers-wrapper">
+	      <div class="pagers bottom">
+		    <span class="paging-arrow disabled previous"><span>上一页</span></span>
+		    <a class="paging-arrow next" href="source_code.html"><span>下一页</span></a>
+		  </div>
+	    </div>
+	  </div>
+    </div>
+  </div>
+</div>
+
+<div class="site-footer">
+  <div class="site-width">
+	<div class="footer-bottom">
+	    <p><span class="generated-for-product"></span><span class="last-updated"></span>
+		</p> 
+		<p class="copyright">
+          © <span itemprop="copyrightYear">2019</span>–2020 horx.org All rights reserved. 
+		</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+<meta charset="utf-8">
+<title>horx-wdf参考手册</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" type="text/css" href="css/doc.min.css">
+</head>
+<body>
+<div class="header-top-bg">
+  <div class="site-width header-top">
+    <ul class="tabs">
+	  <li><a href="index.html" style="font-size:30px">Horx Web开发框架（horx-wdf）参考手册</a></li>
+	</ul>
+	<ul class="secondary-tabs">
+	  <li></li>
+	</ul>
+  </div>
+</div>
+<div class="header-bottom-bg">
+  <div class="site-width breadcrumb-row">
+    <ul class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
+      <li class="step-0" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a class="label" itemprop="item" href="index.html"><span itemprop="name">horx-wdf参考手册</span></a></li>
+	  <li class="step-1" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a class="label" itemprop="item" href="source_code.html"><span itemprop="name">源码说明</span></a></li>
+    </ul>
+  </div>
+</div>    
+<div class="main-content site-width">
+  <div class="content-wrapper">
+    <div id="table-of-contents-wrapper" class="col-left">
+      <script>var breadcrumb = ["horx-wdf参考手册", "源码结构"];</script>
+      <script src="js/toc.js"></script>
+      <script src="js/main.min.js"></script>
+    </div>
+    <div class="col-right">
+      <div class="page-content">
+	    <div class="page-title">
+	      <div class="pagers top">
+		    <a class="paging-arrow previous" href="index.html"><span>上一页</span></a>
+		    <a class="paging-arrow next" href="run_demo.html"><span>下一页</span></a>
+		  </div>
+		  <div class="title-wrapper">
+            <h1 class="content-header header-section1" id="caption" itemprop="headline">源码说明</h1>
+          </div>
+	    </div>
+	    <div class="page-menu">
+          <div class="page-menu-title">目录</div>
+          <ul>
+		    <li><a class="page-menu-link" href="#section_1" data-menu-target="section_1">源码结构</a></li>
+		    <li><a class="page-menu-link" href="#section_2" data-menu-target="section_2">编译</a></li>
+		  </ul> 
+	    </div>
+
+        <h2 class="content-header header-section2" id="section_1">源码结构</h2>
+        <div class="code-wrapper"><pre class="code-block code-template">
+├─horx-web-framework
+│  ├─horx-common&nbsp;&nbsp;&nbsp;&nbsp;基础工具类
+│  ├─horx-wdf-common
+│  │  └─horx-wdf-common-api&nbsp;&nbsp;&nbsp;&nbsp;基础api，包含常用实体类、注解、枚举、异常类
+│  │  └─horx-wdf-common-support&nbsp;&nbsp;&nbsp;&nbsp;基础支持包，比如Mybatis分页拦截器、Spring全局异常处理类
+│  ├─horx-wdf-sys
+│  │  └─horx-wdf-sys-api-base&nbsp;&nbsp;&nbsp;&nbsp;系统管理api，包含DTO、枚举等
+│  │  └─horx-wdf-sys-api&nbsp;&nbsp;&nbsp;&nbsp;系统管理api，包含Service接口。与horx-wdf-sys-api-base分开，是为了兼容SpringCloud的API
+│  │  └─horx-wdf-sys-impl&nbsp;&nbsp;&nbsp;&nbsp;系统管理实现，包含Service实现、Mybatis Mapper、Mybatis Mapper xml等
+│  │  └─horx-wdf-sys-support&nbsp;&nbsp;&nbsp;&nbsp;系统管理支持包，包含一些可扩展接口、默认实现、Spring拦截器等
+│  │  └─horx-wdf-sys-rest&nbsp;&nbsp;&nbsp;&nbsp;系统管理rest接口Controller
+│  │  └─horx-wdf-sys-view&nbsp;&nbsp;&nbsp;&nbsp;系统管理视图渲染层Controller
+│  │  └─horx-wdf-sys-springcloud-provider&nbsp;&nbsp;&nbsp;&nbsp;SpringCloud服务提供者需要引用此包
+│  │  └─horx-wdf-sys-springcloud-feign&nbsp;&nbsp;&nbsp;&nbsp;SpringCloud服务消费者feign接口，引用此包时，不要引用horx-wdf-sys-api包
+│  ├─horx-wdf-launcher&nbsp;&nbsp;&nbsp;&nbsp;可启动的demo
+│  │  └─horx-wdf-web&nbsp;&nbsp;&nbsp;&nbsp;webapp demo
+│  │  └─horx-wdf-springboot&nbsp;&nbsp;&nbsp;&nbsp;SpringBoot demo
+│  │  └─horx-wdf-dubbo-provider&nbsp;&nbsp;&nbsp;&nbsp;dubbo服务提供者，可以用bin命令运行
+│  │  └─horx-wdf-dubbo-consumer&nbsp;&nbsp;&nbsp;&nbsp;dubbo服务消费者，是一个webapp
+│  │  └─horx-wdf-springcloud-eureka&nbsp;&nbsp;&nbsp;&nbsp;SpringCloud注册中心
+│  │  └─horx-wdf-springcloud-provider&nbsp;&nbsp;&nbsp;&nbsp;SpringCloud服务提供者，可以用bin命令运行
+│  │  └─horx-wdf-springcloud-consumer&nbsp;&nbsp;&nbsp;&nbsp;SpringCloud服务消费者，是一个SpringBoot Web程序</pre></div>
+
+        <h2 class="content-header header-section2" id="section_2">编译</h2>
+		<p>目前还需要自行编译代码、把jar包上传Maven私服。</p>
+		<p>代码需要使用Maven进行编译，IDEA、Eclipse等工具已经集成了Maven，用这样的IDE工具即可编译源代码。此处以IDEA为例演示编译过程。</p>
+		<p>首先以IDEA打开工程，如果在右下角或者console出现“Add as Maven Project”，则点击一下。如果工程没有成功识别为Maven工程，也可以在工程上点右键，选择“Add as Maven Project”。这时IDEA会从Maven仓库下载jar包，需要一些时间。</p>
+		<p>第二步需要检查一下工程的jdk版本是否正确。</p>
+		<p>点击菜单“File”中的“Project Structure”：</p>
+		<img src="images/source_code_01.png"/>
+		<p>如果不是Jdk1.8或以上版本，需要选择合适的Jdk：</p>
+		<img src="images/source_code_02.png" style="width:800px"/>
+        <p>然后就可以编译了，双击Compile命令进行编译：</p>
+		<img src="images/source_code_03.png" style="width:800px"/>
+        <p>常用的命令有：</p>
+		<ul>
+            <li>
+              <p><code class="inline-code">clean</code>：清理，删除所有编译出来的内容</p>
+            </li>
+			<li>
+              <p><code class="inline-code">compile</code>：编译，生成class文件，复制resource文件等</p>
+            </li>
+			<li>
+              <p><code class="inline-code">package</code>：打包，生成jar包、war包等</p>
+            </li>
+			<li>
+              <p><code class="inline-code">install</code>：发布到本机Maven仓库</p>
+            </li>
+			<li>
+              <p><code class="inline-code">deploy</code>：发布到远程Maven仓库</p>
+            </li>
+		</ul>
+		<p>执行package得到的结果如下：</p>
+		<img src="images/source_code_04.png"/>
+		<p>如果使用非Maven工程，把执行package得到的jar复制到自己的lib下就可以了；如果使用Maven工程，需要把执行package得到的jar发布到Maven私服，或者直接执行deploy发布Maven私服。</p>
+		
+
+        <div class="bottom-pagers-wrapper">
+	      <div class="pagers bottom">
+		    <a class="paging-arrow previous" href="index.html"><span>上一页</span></a>
+		    <a class="paging-arrow next" href="run_demo.html"><span>下一页</span></a>
+		  </div>
+	    </div>
+	  </div>
+    </div>
+  </div>
+</div>
+
+<div class="site-footer">
+  <div class="site-width">
+	<div class="footer-bottom">
+	    <p><span class="generated-for-product"></span><span class="last-updated"></span>
+		</p> 
+		<p class="copyright">
+          © <span itemprop="copyrightYear">2019</span>–2020 horx.org All rights reserved. 
+		</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

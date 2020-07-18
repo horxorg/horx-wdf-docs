@@ -1,0 +1,199 @@
+<!doctype html>
+<html>
+<meta charset="utf-8">
+<title>horx-wdf参考手册</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" type="text/css" href="css/doc.min.css">
+</head>
+<body>
+<div class="header-top-bg">
+  <div class="site-width header-top">
+    <ul class="tabs">
+	  <li><a href="index.html" style="font-size:30px">Horx Web开发框架（horx-wdf）参考手册</a></li>
+	</ul>
+	<ul class="secondary-tabs">
+	  <li></li>
+	</ul>
+  </div>
+</div>
+<div class="header-bottom-bg">
+  <div class="site-width breadcrumb-row">
+    <ul class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
+      <li class="step-0" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a class="label" itemprop="item" href="index.html"><span itemprop="name">horx-wdf参考手册</span></a></li>
+	  <li class="step-1" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a class="label" itemprop="item" href="dev_simple.html"><span itemprop="name">开发一个简单的应用</span></a></li>
+    </ul>
+  </div>
+</div>    
+<div class="main-content site-width">
+  <div class="content-wrapper">
+    <div id="table-of-contents-wrapper" class="col-left">
+      <script>var breadcrumb = ["horx-wdf参考手册", "开发一个简单的应用"];</script>
+      <script src="js/toc.js"></script>
+      <script src="js/main.min.js"></script>
+    </div>
+    <div class="col-right">
+      <div class="page-content">
+	    <div class="page-title">
+	      <div class="pagers top">
+		    <a class="paging-arrow previous" href="index.html"><span>上一页</span></a>
+		    <!--<a class="paging-arrow next" href="run_demo.html"><span>下一页</span></a>-->
+		  </div>
+		  <div class="title-wrapper">
+            <h1 class="content-header header-section1" id="caption" itemprop="headline">开发一个简单的应用</h1>
+          </div>
+	    </div>
+	    <div class="page-menu">
+          <div class="page-menu-title">目录</div>
+          <ul>
+		    <li><a class="page-menu-link" href="#section_1" data-menu-target="section_1">简单设计</a></li>
+			<li><a class="page-menu-link" href="#section_2" data-menu-target="section_2">新建工程</a></li>
+		    <li><a class="page-menu-link" href="#section_3" data-menu-target="section_3">准备工作</a></li>
+			<li><a class="page-menu-link" href="#section_4" data-menu-target="section_4">后台开发</a></li>
+			<li><a class="page-menu-link" href="#section_5" data-menu-target="section_5">前端开发</a></li>
+			<li><a class="page-menu-link" href="#section_6" data-menu-target="section_6">系统配置</a></li>
+			<li><a class="page-menu-link" href="#section_7" data-menu-target="section_7">效果展示</a></li>
+		  </ul> 
+	    </div>
+
+        <h2 class="content-header header-section2" id="section_1">简单设计</h2>
+        <p>这个例子开发一个简单的资产管理页面，实现资产的查询、新增、修改、删除，用java webapp实现。</p>
+		<p>假定资产包含所属机构、资产编码、资产名称、品牌、型号、状态、购置日期、购买价格、所在位置、负责人、备注等属性。设计数据库表结构如下：</p>
+		<div class="code-wrapper"><pre class="code-block code-template">
+create table wdf_sample_asset
+(
+   id                   bigint not null auto_increment comment 'ID',
+   org_id               bigint comment '所属机构ID',
+   code                 varchar(30) comment '资产编码',
+   name                 varchar(100) comment '资产名称',
+   brand                varchar(30) comment '品牌',
+   model                varchar(30) comment '型号',
+   status               varchar(2) comment '状态',
+   purchase_date       datetime comment '购置日期',
+   price                decimal(10,2) comment '购买价格',
+   location             varchar(200) comment '所在位置',
+   responsible_person varchar(30) comment '负责人',
+   remarks              varchar(500) comment '备注',
+   is_deleted           decimal(1) not null default 0 comment '是否删除',
+   create_time          datetime(6) comment '创建时间',
+   create_user_id       bigint comment '创建用户ID',
+   modify_time          datetime(6) comment '最后修改时间',
+   modify_user_id       bigint comment '最后修改用户ID',
+   trace_id             varchar(50) comment '跟踪ID',
+   primary key (id)
+)
+engine = InnoDB comment '资产';</pre></div>
+
+        <h2 class="content-header header-section2" id="section_2">新建工程</h2>
+		<p>新建一个Maven WebApp工程，目录结构如下：</p>
+		        <div class="code-wrapper"><pre class="code-block code-template">
+├─horx-wdf-sample-simple
+│  ├─src
+│  │  └─main
+│  │     └─java
+│  │     └─resources
+│  │     └─webapp
+│  ├─pom.xml</pre></div>
+
+        <h2 class="content-header header-section2" id="section_3">准备工作</h2>
+		<p>从horx-web-framework工程中复制文件：</p>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;horx-web-framework/horx-wdf-launcher/horx-wdf-web/src/main/resources  -->  horx-wdf-sample-simple/src/main/resources</p>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;horx-web-framework/horx-wdf-launcher/horx-wdf-web/src/main/webapp  -->  horx-wdf-sample-simple/src/main/webapp</p>
+		<p>根据 <a href="run_demo.html#section_2">运行DEMO#修改数据库连接</a> 中的方法把horx-wdf-sample-simple中的数据库连接改成自己的。</p>
+		<p>在数据库中初始化数据，执行src/main/resources/sql下的脚本，并执行本示例所设计的资产表脚本</p>
+		<p>然后运行程序，参照 <a href="run_demo.html#section_3">运行DEMO#在IDEA中运行</a> 中的方法，看程序是否能够正常启动。</p>
+		
+		<h2 class="content-header header-section2" id="section_4">后台开发</h2>
+		<p>由于这个例子比较简单，后台功能只是简单的查询、新增、修改、删除。</p>
+		<p>具体代码参见代码库，这里只列出开发了哪些内容：</p>
+		<p>实体类：org.horx.wdf.sample.simple.domain.Asset</p>
+		<p>查询条件类：org.horx.wdf.sample.simple.domain.query.AssetQuery</p>
+		<p>数据库DAO查询接口：org.horx.wdf.sample.simple.mapper.AssetMapper</p>
+		<p>在resources下增加mybatis mapping文件，mapping/AssetMapper.xml</p>
+		<p>Service接口：org.horx.wdf.sample.simple.service.AssetService</p>
+		<p>Service实现类：org.horx.wdf.sample.simple.service.impl.AssetServiceImpl</p>
+		<br>
+		<p>需要修改的配置：</p>
+		<p>resources/spring-main.xml中扫描的包：&lt;context:component-scan base-package="org.horx.wdf"&gt; 此处因覆盖示例程序所在的包，不需要改动，否则需要加上自己的包名。</p>
+		<p>resources/spring/spring-jdbc.xml中mybatis xml文件，需要增加以下红色字体部分：</p>
+		<div class="code-wrapper"><pre class="code-block code-template">
+    &lt;bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"&gt;
+        ...
+	    &lt;property name="mapperLocations"&gt;
+           &lt;array&gt;
+               &lt;value&gt;classpath:org/horx/wdf/sys/mapping/*.xml&lt;/value&gt;
+               &lt;value&gt;classpath:mybatis/sys/*.xml&lt;/value&gt;
+               <span style="color:#FF0000">&lt;value&gt;classpath:mapping/*.xml&lt;/value&gt;</span>
+           &lt;/array&gt;
+       &lt;/property&gt;
+	...
+   &lt;/bean&gt;
+   &lt;bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"&gt;
+       &lt;property name="basePackage" value="org.horx.wdf.sys.mapper<span style="color:#FF0000">,org.horx.wdf.sample.simple.mapper"</span> /&gt;
+       &lt;property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" /&gt;
+   &lt;/bean&gt;
+</pre></div>
+
+		<h2 class="content-header header-section2" id="section_5">前端开发</h2>
+		<p>具体代码参见代码库，这里只列出开发了哪些内容：</p>
+		<p>页面Controller：org.horx.wdf.sample.simple.controller.AssetPageController</p>
+		<p>API Controller：org.horx.wdf.sample.simple.controller.AssetApiController</p>
+		<p>列表页FreeMarker模板文件：webapp/WEB-INF/templates-ftl/sample/asset/list.ftl</p>
+		<p>编辑页FreeMarker模板文件：webapp/WEB-INF/templates-ftl/sample/asset/edit.ftl</p>
+		<p>列表页js文件：webapp/js/page/sample/asset/list.js</p>
+		<p>编辑页js文件：webapp/js/page/sample/asset/edit.js</p>
+		<br>
+		<p>需要修改的配置：</p>
+		<p>resources/spring-mvc.xml中扫描的包：&lt;context:component-scan base-package="org.horx.wdf" use-default-filters="false"&gt;此处因覆盖示例程序所在的包，不需要改动，否则需要加上自己的包名。</p>
+		
+		<h2 class="content-header header-section2" id="section_6">系统配置</h2>
+		<p>在字典管理中增加资产状态：</p>
+		<img src="images/dev_simple_01.png"/>
+		<br><br>
+		<img src="images/dev_simple_02.png"/>
+		<br>
+		<p>在菜单管理中增加菜单：</p>
+		<img src="images/dev_simple_03.png"/>
+		<br><br>
+		<img src="images/dev_simple_04.png"/>
+		<br><br>
+		<img src="images/dev_simple_05.png"/>
+		<br>
+		<p>修改资产、删除资产的子菜单界面省略，不同之处是，修改资产的权限是sample.asset.modify，删除资产的权限项是sample.asset.remove</p>
+		<p>在角色管理中增加角色：</p>
+		<img src="images/dev_simple_06.png"/>
+		<p>给用户授予角色：</p>
+		<img src="images/dev_simple_07.png"/>
+		
+		<h2 class="content-header header-section2" id="section_7">效果展示</h2>
+		<img src="images/dev_simple_08.png"/>
+		<br><br>
+		<img src="images/dev_simple_09.png"/>
+		<br><br>
+		<img src="images/dev_simple_10.png"/>
+		<br>
+		
+        <div class="bottom-pagers-wrapper">
+	      <div class="pagers bottom">
+		    <a class="paging-arrow previous" href="index.html"><span>上一页</span></a>
+		    <!--<a class="paging-arrow next" href="run_demo.html"><span>下一页</span></a>-->
+		  </div>
+	    </div>
+	  </div>
+    </div>
+  </div>
+</div>
+
+<div class="site-footer">
+  <div class="site-width">
+	<div class="footer-bottom">
+	    <p><span class="generated-for-product"></span><span class="last-updated"></span>
+		</p> 
+		<p class="copyright">
+          © <span itemprop="copyrightYear">2019</span>–2020 horx.org All rights reserved. 
+		</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

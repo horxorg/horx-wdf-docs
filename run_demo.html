@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+<meta charset="utf-8">
+<title>horx-wdf参考手册</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" type="text/css" href="css/doc.min.css">
+</head>
+<body>
+<div class="header-top-bg">
+  <div class="site-width header-top">
+    <ul class="tabs">
+	  <li><a href="index.html" style="font-size:30px">Horx Web开发框架（horx-wdf）参考手册</a></li>
+	</ul>
+	<ul class="secondary-tabs">
+	  <li></li>
+	</ul>
+  </div>
+</div>
+<div class="header-bottom-bg">
+  <div class="site-width breadcrumb-row">
+    <ul class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
+      <li class="step-0" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a class="label" itemprop="item" href="index.html"><span itemprop="name">horx-wdf参考手册</span></a></li>
+	  <li class="step-1" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a class="label" itemprop="item" href="run_demo.html"><span itemprop="name">运行Demo</span></a></li>
+    </ul>
+  </div>
+</div>    
+<div class="main-content site-width">
+  <div class="content-wrapper">
+    <div id="table-of-contents-wrapper" class="col-left">
+      <script>var breadcrumb = ["horx-wdf参考手册", "运行Demo"];</script>
+      <script src="js/toc.js"></script>
+      <script src="js/main.min.js"></script>
+    </div>
+    <div class="col-right">
+      <div class="page-content">
+	    <div class="page-title">
+	      <div class="pagers top">
+		    <a class="paging-arrow previous" href="source_code.html"><span>上一页</span></a>
+		    <a class="paging-arrow next" href="dev_simple.html"><span>下一页</span></a>
+		  </div>
+		  <div class="title-wrapper">
+            <h1 class="content-header header-section1" id="caption" itemprop="headline">运行Demo</h1>
+          </div>
+	    </div>
+	    <div class="page-menu">
+          <div class="page-menu-title">目录</div>
+          <ul>
+		    <li><a class="page-menu-link" href="#section_1" data-menu-target="section_1">准备数据库</a></li>
+		    <li><a class="page-menu-link" href="#section_2" data-menu-target="section_2">修改数据库连接</a></li>
+			<ul>
+			  <li><a class="page-menu-link" href="#section_2_1" data-menu-target="section_2_1">webapp</a></li>
+			  <li><a class="page-menu-link" href="#section_2_2" data-menu-target="section_2_2">springboot</a></li>
+			</ul>
+		    <li><a class="page-menu-link" href="#section_3" data-menu-target="section_3">在IDEA中运行</a></li>
+			<ul>
+			  <li><a class="page-menu-link" href="#section_3_1" data-menu-target="section_3_1">webapp</a></li>
+			  <li><a class="page-menu-link" href="#section_3_2" data-menu-target="section_3_2">springboot</a></li>
+			</ul>
+			<li><a class="page-menu-link" href="#section_4" data-menu-target="section_4">在tomcat中运行</a></li>
+		  </ul> 
+	    </div>
+
+        <h2 class="content-header header-section2" id="section_1">准备数据库</h2>
+        <p>执行sql文件夹下对应数据库类型中的wdf-sys-ddl.sql、wdf-sys-dml.sql文件，完成数据库建表和数据初始化。</p>
+
+        <h2 class="content-header header-section2" id="section_2">修改数据库连接</h2>
+		<h3 class="content-header header-section3" id="section_2_1">webapp</h3>
+        <p>第一处：加载JDBC驱动</p>
+		<p>默认已加载MySQL JDBC驱动：</p>
+		<div class="code-wrapper"><pre class="code-block code-template">
+&lt;dependency&gt;
+    &lt;groupId&gt;mysql&lt;/groupId&gt;
+    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+    &lt;version&gt;${mysql-connector.version}&lt;/version&gt;
+&lt;/dependency></pre></div>
+        <p>Oracle数据库JDBC驱动需要自行加载，接在把jdbc包放到lib下，或者通过Maven的方式加载（需要自己把Oracle JDBC驱动放到Maven私服）。</p>
+		
+		<p>第二处：horx-wdf-web下src/main/resources/config/jdbc.properties（war包或者已部署的应用，则是WEB-INF/classes/config/jdbc.properties）</p>
+		<p>MySQL数据库连接参考：</p>
+		<div class="code-wrapper"><pre class="code-block code-template">
+dataSource.driverClassName=com.mysql.jdbc.Driver
+dataSource.url=jdbc:mysql://localhost:3306/wdf?useUnicode=true&characterEncoding=utf-8
+dataSource.username=wdf
+dataSource.password=wdf</pre></div>
+        
+        <p>Oracle数据库连接参考：</p>
+		<div class="code-wrapper"><pre class="code-block code-template">
+dataSource.driverClassName=oracle.jdbc.driver.OracleDriver
+dataSource.url=jdbc:oracle:thin:@localhost:1521:orcl
+dataSource.username=wdf
+dataSource.password=wdf</pre></div>
+		
+		<p>第三处：horx-wdf-web下，src/main/resources/spring/spring-jdbc.xml（war包或者已部署的应用，则是WEB-INF/classes/spring/spring-jdbc.xml）</p>
+		<p>默认使用MySQL数据库，如果使用Oracle则需要修改：</p>
+		<div class="code-wrapper"><pre class="code-block code-template">
+把
+&lt;bean id="dbDialect" class="org.horx.wdf.common.jdbc.dialect.support.MysqlDialect"/&gt;
+替换为：
+&lt;bean id="dbDialect" class="org.horx.wdf.common.jdbc.dialect.support.OracleDialect"/&gt;
+
+把
+&lt;property name="configLocation" value="classpath:mybatis/mysql-config.xml"/&gt;
+替换为：
+&lt;property name="configLocation" value="classpath:mybatis/oracle-config.xml"/&gt;</pre></div>
+		
+        <h3 class="content-header header-section3" id="section_2_2">springboot</h3>
+		<p>第一处：加载JDBC驱动。方法同上</p>
+		<p>第二处：horx-wdf-springboot下，src/main/resources/application.yml</p>
+		<p>默认使用MySQL数据库，如果使用Oracle则需要修改：</p>
+		<div class="code-wrapper"><pre class="code-block code-template">
+把
+    driverClassName: com.mysql.jdbc.Driver
+替换为：
+    driverClassName: oracle.jdbc.driver.OracleDriver
+
+把
+  config-location: classpath:mybatis/mysql-config.xml
+替换为：
+  config-location: classpath:mybatis/oracle-config.xml</pre></div>
+	    <p>第三处：horx-wdf-springboot下，src/main/resources/application-dev.yml（根据启用的profile看修改哪个文件）</p>
+		<div class="code-wrapper"><pre class="code-block code-template">
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/wdf?useUnicode=true&characterEncoding=utf-8
+    username: wdf
+    password: wdf</pre></div>
+	    <p>修改内容参考webapp的修改方法。</p>
+		<p>第四处，修改class：org.horx.wdf.springboot.config.MybatisConfig<p>
+		<div class="code-wrapper"><pre class="code-block code-template">
+把
+import org.horx.wdf.common.jdbc.dialect.support.MysqlDialect;
+@Configuration
+class MybatisConfig {
+    @Bean
+    DbDialect dbDialect() {
+        return new MysqlDialect();
+    }
+}
+修改为：
+import org.horx.wdf.common.jdbc.dialect.support.OracleDialect;
+@Configuration
+class MybatisConfig {
+    @Bean
+    DbDialect dbDialect() {
+        return new OracleDialect();
+    }
+}</pre></div>
+
+		<h2 class="content-header header-section2" id="section_3">在IDEA中运行</h2>
+		<h3 class="content-header header-section3" id="section_3_1">webapp</h3>
+		<p>点击“Add Configuration...”或者“Edit Configurations”：</p>
+		<img src="images/run_demo_01.png" style="width:800px"/>
+		<p>点击“Add New Configuration”，然后选择“Tomcat Server”：</p>
+		<img src="images/run_demo_02.png" style="width:800px"/>
+		<p>在弹出的Tomcat配置页，选择Tomcat版本，设置端口号：</p>
+		<img src="images/run_demo_03.png" style="width:800px"/>
+		<p>在“Deployment”中，点击“Add” “Artifact”，选择部署“horx-wdf-web:war exploded”：</p>
+		<img src="images/run_demo_04.png" style="width:800px"/>
+		<p>然后Application context可以选择默认的“/”，也可以设置为其他的，比如“/wdf”：</p>
+		<img src="images/run_demo_05.png" style="width:800px"/>
+		<p>运行Run或者Debug：</p>
+		<img src="images/run_demo_06.png" style="width:800px"/>
+		<p>启动完成后，弹出浏览器窗口，或者在浏览器地址栏输入http://localhost:8080/（如果Application context设置的是“/wdf”，则输入http://localhost:8080/wdf”），出现系统登录界面：</p>
+		<img src="images/run_demo_07.png" style="width:800px"/>
+		<p>输入用户名/密码 admin/admin12345 登录系统。</p>
+		
+		<h3 class="content-header header-section3" id="section_3_1">springboot</h3>
+		<p>在horx-wdf-springboot中，打开类org.horx.wdf.springboot.Application，直接右键选择Run或者Debug：</p>
+		<img src="images/run_demo_08.png" style="width:800px"/>
+		<p>启动完成后，在浏览器地址栏输入http://localhost:8080/访问系统。</p>
+		
+        <div class="bottom-pagers-wrapper">
+	      <div class="pagers bottom">
+		    <a class="paging-arrow previous" href="source_code.html"><span>上一页</span></a>
+		    <a class="paging-arrow next" href="dev_simple.html"><span>下一页</span></a>
+		  </div>
+	    </div>
+	  </div>
+    </div>
+  </div>
+</div>
+
+<div class="site-footer">
+  <div class="site-width">
+	<div class="footer-bottom">
+	    <p><span class="generated-for-product"></span><span class="last-updated"></span>
+		</p> 
+		<p class="copyright">
+          © <span itemprop="copyrightYear">2019</span>–2020 horx.org All rights reserved. 
+		</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
