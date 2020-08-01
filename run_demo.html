@@ -28,7 +28,7 @@
 <div class="main-content site-width">
   <div class="content-wrapper">
     <div id="table-of-contents-wrapper" class="col-left">
-      <script>var breadcrumb = ["horx-wdf参考手册", "运行Demo"];</script>
+      <script>var breadcrumb = ["horx-wdf参考手册", "运行Demo"];var relativeUrl="";</script>
       <script src="js/toc.js"></script>
       <script src="js/main.min.js"></script>
     </div>
@@ -67,14 +67,21 @@
         <h2 class="content-header header-section2" id="section_2">修改数据库连接</h2>
 		<h3 class="content-header header-section3" id="section_2_1">webapp</h3>
         <p>第一处：加载JDBC驱动</p>
-		<p>默认已加载MySQL JDBC驱动：</p>
+		<p>加载MySQL JDBC驱动：</p>
 		<div class="code-wrapper"><pre class="code-block code-template">
 &lt;dependency&gt;
     &lt;groupId&gt;mysql&lt;/groupId&gt;
     &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
-    &lt;version&gt;${mysql-connector.version}&lt;/version&gt;
+    &lt;version&gt;8.0.16&lt;/version&gt;
 &lt;/dependency></pre></div>
         <p>Oracle数据库JDBC驱动需要自行加载，接在把jdbc包放到lib下，或者通过Maven的方式加载（需要自己把Oracle JDBC驱动放到Maven私服）。</p>
+		<p>加载H2 JDBC驱动：</p>
+		<div class="code-wrapper"><pre class="code-block code-template">
+&lt;dependency&gt;
+    &lt;groupId&gt;com.h2database&lt;/groupId&gt;
+    &lt;artifactId&gt;h2&lt;/artifactId&gt;
+    &lt;version&gt;1.4.200&lt;/version&gt;
+&lt;/dependency></pre></div>
 		
 		<p>第二处：horx-wdf-web下src/main/resources/config/jdbc.properties（war包或者已部署的应用，则是WEB-INF/classes/config/jdbc.properties）</p>
 		<p>MySQL数据库连接参考：</p>
@@ -90,9 +97,17 @@ dataSource.driverClassName=oracle.jdbc.driver.OracleDriver
 dataSource.url=jdbc:oracle:thin:@localhost:1521:orcl
 dataSource.username=wdf
 dataSource.password=wdf</pre></div>
+
+        <p>H2数据库连接参考：</p>
+		<div class="code-wrapper"><pre class="code-block code-template">
+dataSource.driverClassName=org.h2.Driver
+dataSource.url=jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1
+dataSource.username=wdf
+dataSource.password=wdf</pre></div>
+
 		
 		<p>第三处：horx-wdf-web下，src/main/resources/spring/spring-jdbc.xml（war包或者已部署的应用，则是WEB-INF/classes/spring/spring-jdbc.xml）</p>
-		<p>默认使用MySQL数据库，如果使用Oracle则需要修改：</p>
+		<p>默认使用MySQL数据库（系统中默认H2与MySQL相同），如果使用Oracle则需要修改：</p>
 		<div class="code-wrapper"><pre class="code-block code-template">
 把
 &lt;bean id="dbDialect" class="org.horx.wdf.common.jdbc.dialect.support.MysqlDialect"/&gt;
@@ -103,6 +118,17 @@ dataSource.password=wdf</pre></div>
 &lt;property name="configLocation" value="classpath:mybatis/mysql-config.xml"/&gt;
 替换为：
 &lt;property name="configLocation" value="classpath:mybatis/oracle-config.xml"/&gt;</pre></div>
+
+        <p>如果使用H2内存数据库，还需要修改：horx-wdf-web下，src/main/resources/spring-main.xml：</p>
+		<p>需要加入&lt;import resource="spring/spring-init-data.xml" /&gt;，用于H2加载表结构和数据，源码中注释了，需要把这行去掉注释。</p>
+		<p>如果是Oracle数据库，还需要修改spring/spring-init-data.xml中的文件路径：</p>
+		<div class="code-wrapper"><pre class="code-block code-template">
+把
+        &lt;jdbc:script location="classpath:sql/mysql/sys_ddl.sql" encoding="UTF-8"/&gt;
+        &lt;jdbc:script location="classpath:sql/mysql/sys_dml.sql" encoding="UTF-8"/&gt;
+修改为：
+        &lt;jdbc:script location="classpath:sql/oracle/sys_ddl.sql" encoding="UTF-8"/&gt;
+        &lt;jdbc:script location="classpath:sql/oracle/sys_dml.sql" encoding="UTF-8"/&gt;</pre></div>
 		
         <h3 class="content-header header-section3" id="section_2_2">springboot</h3>
 		<p>第一处：加载JDBC驱动。方法同上</p>
@@ -118,6 +144,18 @@ dataSource.password=wdf</pre></div>
   config-location: classpath:mybatis/mysql-config.xml
 替换为：
   config-location: classpath:mybatis/oracle-config.xml</pre></div>
+  
+		<p>如果使用H2则需要修改：</p>
+		<div class="code-wrapper"><pre class="code-block code-template">
+把
+    driverClassName: com.mysql.jdbc.Driver
+替换为：
+    driverClassName: org.h2.Driver
+    schema: classpath:/sql/mysql/sys_ddl.sql
+    data: classpath:/sql/mysql/sys_dml.sql
+    initialization-mode: always</pre></div>
+	    <p>schema、data、initialization-mode用于启动应用时加载数据。</p>
+  
 	    <p>第三处：horx-wdf-springboot下，src/main/resources/application-dev.yml（根据启用的profile看修改哪个文件）</p>
 		<div class="code-wrapper"><pre class="code-block code-template">
 spring:

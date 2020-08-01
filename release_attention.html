@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<meta charset="utf-8">
+<title>horx-wdf参考手册</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" type="text/css" href="css/doc.min.css">
+</head>
+<body>
+<div class="header-top-bg">
+  <div class="site-width header-top">
+    <ul class="tabs">
+	  <li><a href="index.html" style="font-size:30px">Horx Web开发框架（horx-wdf）参考手册</a></li>
+	</ul>
+	<ul class="secondary-tabs">
+	  <li></li>
+	</ul>
+  </div>
+</div>
+<div class="header-bottom-bg">
+  <div class="site-width breadcrumb-row">
+    <ul class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
+      <li class="step-0" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a class="label" itemprop="item" href="index.html"><span itemprop="name">horx-wdf参考手册</span></a></li>
+	  <li class="step-1" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a class="label" itemprop="item" href="version_history.html"><span itemprop="name">上线注意事项</span></a></li>
+    </ul>
+  </div>
+</div>    
+<div class="main-content site-width">
+  <div class="content-wrapper">
+    <div id="table-of-contents-wrapper" class="col-left">
+      <script>var breadcrumb = ["horx-wdf参考手册", "上线注意事项"];var relativeUrl="";</script>
+      <script src="js/toc.js"></script>
+      <script src="js/main.min.js"></script>
+    </div>
+    <div class="col-right">
+      <div class="page-content">
+	    <div class="page-title">
+	      <div class="pagers top">
+		    <a class="paging-arrow previous" href="dev_simple.html"><span>上一页</span></a>
+		    <a class="paging-arrow next" href="version_history.html"><span>下一页</span></a>
+		  </div>
+		  <div class="title-wrapper">
+            <h1 class="content-header header-section1" id="caption" itemprop="headline">上线注意事项</h1>
+          </div>
+	    </div>
+		
+		<h2 class="content-header header-section2" id="section_1">修改admin用户的密码</h2>
+		<p>初始admin用户的密码比较简单，需要修改为强度较高的密码。</p>
+	    
+		<h2 class="content-header header-section2" id="section_2">修改log4j2日志写入文件</h2>
+		<p>默认日志写入Console，上线时需要把日志写入文件，日志级别最好调整成info或以上级别。</p>
+		<p>修改log4j2.xml：</p>
+		<div class="code-wrapper"><pre class="code-block code-template">
+        &lt;Root level="<span style="color:#FF0000">info</span>"&gt;
+            &lt;!--&lt;AppenderRef ref="Console" /&gt;--&gt;
+            &lt;AppenderRef ref="RollingFile"/&gt;
+        &lt;/Root&gt;</pre></div>
+		<p>修改日志文件输出路径：</p>
+		<div class="code-wrapper"><pre class="code-block code-template">
+    &lt;Properties&gt;
+        &lt;Property name="baseDir"&gt;<span style="color:#FF0000">d:/logs</span>&lt;/Property&gt;
+        &lt;Property name="patternLayout"&gt;%d{yyyy-MM-dd HH:mm:ss.SSS} %p %c.%M(%F:%L) %traceId - %m%n&lt;/Property&gt;
+    &lt;/Properties&gt;</pre></div>
+       
+	    <h2 class="content-header header-section2" id="section_1">启用缓存</h2>
+		<p>webapp，修改resources/spring/spring-cache.xml，把&lt;cache:annotation-driven cache-manager="springCacheManager"  order="1"/&gt;的注释去掉。</p>
+		<p>springboot，修改类Application，把@EnableCaching(order = 1)的注释去掉。</p>
+	   
+        <div class="bottom-pagers-wrapper">
+	      <div class="pagers bottom">
+		    <a class="paging-arrow previous" href="dev_simple.html"><span>上一页</span></a>
+		    <a class="paging-arrow next" href="version_history.html"><span>下一页</span></a>
+		  </div>
+	    </div>
+	  </div>
+    </div>
+  </div>
+</div>
+
+<div class="site-footer">
+  <div class="site-width">
+	<div class="footer-bottom">
+	    <p><span class="generated-for-product"></span><span class="last-updated"></span>
+		</p> 
+		<p class="copyright">
+          © <span itemprop="copyrightYear">2019</span>–2020 horx.org All rights reserved.   email: horxorg@163.com
+		</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

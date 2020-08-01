@@ -25,21 +25,49 @@ var toc={
 		"url": "dev_simple.html",
 		"isFile": true,
 		"children": []
-	}/*,
+	},
 	{
 		"title": "上线注意事项",
 		"url": "release_attention.html",
 		"isFile": true,
 		"children": []
-	},
+	}/*,
 	{
 		"title": "开发参考",
 		"isFile": false,
 		"children": [{
-			"title": "MyBatis Mapper",
-			"url": "dev_ref_mybatis.html",
-			"isFile": true,
-			"children": []
+			"title": "MyBatis扩展",
+			"isFile": false,
+			"children": [{
+				"title": "MyBatis属性自动映射",
+				"url": "dev/mybatis_property.html",
+				"isFile": true,
+				"children": []
+			},
+			{
+				"title": "MyBatis SQL Provider",
+				"url": "dev/mybatis_provider.html",
+				"isFile": true,
+				"children": []
+			},
+			{
+				"title": "MyBatis Mapper接口",
+				"url": "dev/mybatis_mapper.html",
+				"isFile": true,
+				"children": []
+			},
+			{
+				"title": "MyBatis拦截器",
+				"url": "dev/mybatis_interceptor.html",
+				"isFile": true,
+				"children": []
+			},
+			{
+				"title": "MyBatis多数据库支持",
+				"url": "dev/mybatis_multi_db.html",
+				"isFile": true,
+				"children": []
+			}]
 		},
 		{
 			"title": "实体生成",
@@ -204,6 +232,25 @@ var toc={
 				"children": []
 			}]
 		}]
-	}*/
-	]
+	}*/,
+	{
+		"title": "版本",
+		"isFile": false,
+		"children": [{
+			"title": "版本历史",
+			"url": "version_history.html",
+			"isFile": true,
+			"children": []
+		},
+		{
+			"title": "版本升级",
+			"isFile": false,
+			"children": [{
+				"title": "升级到V1.0.1",
+			    "url": "upgrade/upgrade_to_1_0_1.html",
+			    "isFile": true,
+			    "children": []
+			}]
+		}]
+	}]
 };
