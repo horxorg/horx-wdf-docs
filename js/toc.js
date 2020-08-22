@@ -31,7 +31,7 @@ var toc={
 		"url": "release_attention.html",
 		"isFile": true,
 		"children": []
-	}/*,
+	},
 	{
 		"title": "开发参考",
 		"isFile": false,
@@ -39,7 +39,7 @@ var toc={
 			"title": "MyBatis扩展",
 			"isFile": false,
 			"children": [{
-				"title": "MyBatis属性自动映射",
+				"title": "MyBatis属性映射",
 				"url": "dev/mybatis_property.html",
 				"isFile": true,
 				"children": []
@@ -49,7 +49,7 @@ var toc={
 				"url": "dev/mybatis_provider.html",
 				"isFile": true,
 				"children": []
-			},
+			}/*,
 			{
 				"title": "MyBatis Mapper接口",
 				"url": "dev/mybatis_mapper.html",
@@ -67,14 +67,14 @@ var toc={
 				"url": "dev/mybatis_multi_db.html",
 				"isFile": true,
 				"children": []
-			}]
+			}*/]
 		},
 		{
-			"title": "实体生成",
+			"title": "属性赋值",
 			"url": "dev_ref_entity.html",
 			"isFile": true,
 			"children": []
-		},
+		}/*,
 		{
 			"title": "数据校验",
 			"url": "dev_ref_validation.html",
@@ -86,8 +86,8 @@ var toc={
 			"url": "dev_ref_validation.html",
 			"isFile": true,
 			"children": []
-		}]
-	},
+		}*/]
+	}/*,
 	{
 		"title": "功能说明",
 		"isFile": false,

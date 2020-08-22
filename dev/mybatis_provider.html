@@ -1,0 +1,230 @@
+<!doctype html>
+<html>
+<meta charset="utf-8">
+<title>horx-wdf参考手册</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../css/doc.min.css">
+</head>
+<body>
+<div class="header-top-bg">
+  <div class="site-width header-top">
+    <ul class="tabs">
+	  <li><a href="../index.html" style="font-size:30px">Horx Web开发框架（horx-wdf）参考手册</a></li>
+	</ul>
+	<ul class="secondary-tabs">
+	  <li></li>
+	</ul>
+  </div>
+</div>
+<div class="header-bottom-bg">
+  <div class="site-width breadcrumb-row">
+    <ul class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
+      <li class="step-0" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a class="label" itemprop="item" href="../index.html"><span itemprop="name">horx-wdf参考手册</span></a></li>
+	  <li class="step-1" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a class="label" itemprop="item" href="mybatis_provider.html"><span itemprop="name">MyBatis SQL Provider</span></a></li>
+    </ul>
+  </div>
+</div>    
+<div class="main-content site-width">
+  <div class="content-wrapper">
+    <div id="table-of-contents-wrapper" class="col-left">
+      <script>var breadcrumb = ["horx-wdf参考手册", "开发参考", "MyBatis扩展", "MyBatis SQL Provider"];var relativeUrl="../";</script>
+      <script src="../js/toc.js"></script>
+      <script src="../js/main.min.js"></script>
+    </div>
+    <div class="col-right">
+      <div class="page-content">
+	    <div class="page-title">
+	      <div class="pagers top">
+		    <a class="paging-arrow previous" href="mybatis_property.html"><span>上一页</span></a>
+		    <a class="paging-arrow next" href="mybatis_mapper.html"><span>下一页</span></a>
+		  </div>
+		  <div class="title-wrapper">
+            <h1 class="content-header header-section1" id="caption" itemprop="headline">MyBatis SQL Provider</h1>
+          </div>
+	    </div>
+		
+		<div class="page-menu">
+          <div class="page-menu-title">目录</div>
+          <ul>
+		    <li><a class="page-menu-link" href="#section_1" data-menu-target="section_1">Provider列表</a></li>
+            <li><a class="page-menu-link" href="#section_2" data-menu-target="section_2">持久化类的确定机制</a></li>
+		    <li><a class="page-menu-link" href="#section_3" data-menu-target="section_3">查询条件的生成</a></li>
+		  </ul> 
+	    </div>
+		
+		<h2 class="content-header header-section2" id="section_1">通过注解进行映射</h2>
+		<p>Mybatis3中增加了使用注解来配置Mapper，这些注解有@SelectProvider、@UpdateProvider、@InsertProvider和@DeleteProvider，声明在Mapper对应的interface方法上，用于生成所需要使用的sql语句。</p>
+		<p>wdf框架提供了一些Provider具体实现，用于简化sql的生成，在使用时：</p>
+		<div class="code-wrapper"><pre class="code-block code-template">
+    @InsertProvider(
+        type = InsertSqlProvider.class,
+        method = "insertSql"
+    )
+    int insert(Asset po);</pre></div>
+		
+        <p>下面是wdf框架提供的Provider列表：</p>
+		<div class="table-responsive">
+		<table class="table">
+		  <thead>
+		    <tr>
+			  <th>Provider</th>
+			  <th>方法</th>
+			  <th>含义</th>
+			  <th>用法</th>
+			</tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+			  <td class="text-center">org.horx.wdf.common.mybatis.provider.InsertSqlProvider</td>
+			  <td>insertSql</td>
+			  <td>用于生成insert语句</td>
+			  <td><div class="code-wrapper"><pre class="code-block code-template">
+    @InsertProvider(
+        type = InsertSqlProvider.class,
+        method = "insertSql"
+    )
+    int insert(Asset po);</pre></div></td>
+			</tr>
+			<tr>
+			  <td class="text-center">org.horx.wdf.common.mybatis.provider.UpdateSqlProvider</td>
+			  <td>updateSql</td>
+			  <td>用于生成update语句</td>
+			  <td><div class="code-wrapper"><pre class="code-block code-template">
+    @UpdateProvider(
+        type = UpdateSqlProvider.class,
+        method = "insertSql"
+    )
+    int update(@Param("po") Asset po);</pre></div></td>
+			</tr>
+			<tr>
+			  <td class="text-center">org.horx.wdf.common.mybatis.provider.DeleteByIdProvider</td>
+			  <td>deleteByIdSql</td>
+			  <td>用于生成根据ID删除的语句</td>
+			  <td><div class="code-wrapper"><pre class="code-block code-template">
+    @DeleteProvider(
+        type = DeleteByIdProvider.class,
+        method = "deleteByIdSql"
+    )
+	@EntityClass(cls = Asset.class)
+    int deleteById(@Param("id") Long id);</pre></div></td>
+			</tr>
+			<tr>
+			  <td class="text-center">org.horx.wdf.common.mybatis.provider.LogicalDeleteByIdProvider</td>
+			  <td>deleteByIdSql</td>
+			  <td>用于生成根据ID逻辑删除的语句，实际是update语句</td>
+			  <td><div class="code-wrapper"><pre class="code-block code-template">
+    @UpdateProvider(
+        type = LogicalDeleteByIdProvider.class,
+        method = "deleteByIdSql"
+    )
+	@EntityClass(cls = Asset.class)
+    int logicalDelete(@Param("id") Long id);</pre></div></td>
+			</tr>
+			<tr>
+			  <td class="text-center">org.horx.wdf.common.mybatis.provider.SelectByIdProvider</td>
+			  <td>selectByIdSql</td>
+			  <td>用于生成根据ID查询的语句</td>
+			  <td><div class="code-wrapper"><pre class="code-block code-template">
+    @SelectProvider(
+        type = SelectByIdProvider.class,
+        method = "selectByIdSql"
+    )
+    @EntityClass(cls = Asset.class)
+    Asset selectById(@Param("id") Long id);</pre></div></td>
+			</tr>
+			<tr>
+			  <td class="text-center">org.horx.wdf.common.mybatis.provider.SelectSqlProvider</td>
+			  <td>selectSql</td>
+			  <td>用于生成查询的语句</td>
+			  <td><div class="code-wrapper"><pre class="code-block code-template">
+    @SelectProvider(
+        type = SelectSqlProvider.class,
+        method = "selectSql"
+    )
+    @EntityClass(cls = Asset.class)
+    List&lt;Asset&gt; select(AssetQuery query);</pre></div></td>
+			</tr>
+		  </tbody>
+		</table>
+		</div>
+	    
+		<h2 class="content-header header-section2" id="section_2">持久化类的确定机制</h2>
+		<p>对于insert、update来说，参数就是持久化类的实例，很容易得到所属的Class，也就能得到映射关系。但delete、select的输入参数并不能得到所对应的持久化类，需要采取其他的方法。</p>
+		<p>优先级1：取方法上的@EntityClass注解，cls对应持久化类。示例见上节内容。</p>
+        <p>优先级2：如果方法上没有@EntityClass注解，则取Mapper接口上的@EntityClass注解</p>
+        <div class="code-wrapper"><pre class="code-block code-template">
+@EntityClass(cls = Asset.class)
+public interface AssetMapper {
+    @SelectProvider(
+        type = SelectByIdProvider.class,
+        method = "selectByIdSql"
+    )
+    Asset selectById(@Param("id") Long id);
+}</pre></div>
+        <p>优先级3：如果上面两种方法都取不到，则取接口的参数化类型</p>
+		<div class="code-wrapper"><pre class="code-block code-template">
+public interface BaseMapper&lt;P&gt; {
+    @SelectProvider(
+        type = SelectByIdProvider.class, 
+        method = "selectByIdSql"
+    )
+    P selectById(@Param("id") Long id);
+}
+
+public interface AssetMapper extends BaseMapper&lt;Asset&gt; {
+    
+}</pre></div>
+	
+	    <h2 class="content-header header-section2" id="section_3">查询条件的生成</h2>
+		<p>在持久化类上定义的映射注解定义了表、字段与Class、Field的映射关系，除非在非常必要的情景下，尽量重用这套映射关系。目前应用场景有：</p>通过注解自动生成resultMap
+	    <p>1、通过MyBatis的Provider机制，自动生成insert、update、delete、逻辑删除、简单select语句</p>
+		<p>2、通过MyBatis的Interceptor机制，自动生成resultMap，这样就不用在xml文件中定义resultMap了。示例：</p>
+		<div class="code-wrapper"><pre class="code-block code-template">
+    &lt;select id="pagingSelect" resultType="org.horx.wdf.sample.simple.domain.Asset"&gt;
+        SELECT
+            t1.id,
+            t1.org_id,
+            t2.name AS org_name,
+            t1.code,
+            t1.name,
+            t1.brand,
+            t1.model,
+            t1.status,
+            t1.purchase_date,
+            t1.price,
+            t1.location,
+            t1.responsible_person,
+            t1.remarks
+        FROM
+            wdf_sample_asset t1
+        LEFT JOIN wdf_org t2 ON (t1.org_id = t2.id)
+        WHERE
+            t1.is_deleted = 0
+    &lt;/select&gt;</pre></div>
+	    <p>在Interceptor增强之前，上述写法只能映射字段名与属性名相同的情况。</p>
+       
+        <div class="bottom-pagers-wrapper">
+	      <div class="pagers bottom">
+		    <a class="paging-arrow previous" href="mybatis_property.html"><span>上一页</span></a>
+		    <a class="paging-arrow next" href="mybatis_mapper.html"><span>下一页</span></a>
+		  </div>
+	    </div>
+	  </div>
+    </div>
+  </div>
+</div>
+
+<div class="site-footer">
+  <div class="site-width">
+	<div class="footer-bottom">
+	    <p><span class="generated-for-product"></span><span class="last-updated"></span>
+		</p> 
+		<p class="copyright">
+          © <span itemprop="copyrightYear">2019</span>–2020 horx.org All rights reserved.   email: horxorg@163.com
+		</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
